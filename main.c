@@ -14,10 +14,10 @@ int main(void)
  *
  */
      //printChar('Y');
-    Configurar_PLL(_20MHZ);  //Confiuracion de velocidad de reloj
+    Configurar_PLL();  //Confiuracion de velocidad de reloj
     //Configurar_UART0();//Yo FCLK 20MHZ Baudrate 9600
     Configura_Reg_ADC0();
-    Configura_Reg_PWM1(8);
+    Configura_Reg_PWM0(8);
 
    /* while (1)
     {
@@ -31,7 +31,18 @@ int main(void)
 
     while (1)
     {
+        //Se llama a la función para leer y convertir valores del ADC
+        ADC0_InSeq2(Result,duty);
       
+        //Modificar ciclo de trabajo 
+        //Canal ADC 1: PE2, PWM1: PF1
+        PWM0->_0_CMPB = duty[0];
+
+        //Canal ADC 2: PE1, PWM2: PF2
+        PWM0->_1_CMPA = duty[1];
+
+        //Canal ADC 8: PE5, PWM4: PG0
+        PWM0->_2_CMPA = duty[2];
     }
     
 }
